@@ -24,7 +24,7 @@ public class PlayerMove : MonoBehaviour, IPunObservable
         if (pv.IsMine)
         {
             float H = Input.GetAxis("Horizontal");
-            rb.AddForce(new Vector2(H * speed, 0)); 
+            rb.AddForce(new Vector2(H * speed, 0));
         }
     }
     private void Update()
@@ -36,7 +36,7 @@ public class PlayerMove : MonoBehaviour, IPunObservable
             Vector2 dir = new Vector2(scope.x - center.x, scope.y - center.y).normalized;
 
             GunRorationAngle = GetAngle(dir);
-        }     
+        }
 
         Gun.transform.rotation = Quaternion.Euler(0, 0, GunRorationAngle);
     }
@@ -64,6 +64,7 @@ public class PlayerMove : MonoBehaviour, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
+
         if (stream.IsWriting)
         {
             stream.SendNext(GunRorationAngle);
@@ -72,5 +73,7 @@ public class PlayerMove : MonoBehaviour, IPunObservable
         {
             GunRorationAngle = (float)stream.ReceiveNext();
         }
+
+        throw new System.NotImplementedException();
     }
 }
