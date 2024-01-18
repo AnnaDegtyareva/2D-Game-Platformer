@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
 
-public class PlayerMove : MonoBehaviour
+public class PlayerMove : MonoBehaviour, IPunObservable
 {
     PhotonView pv;
     Rigidbody2D rb;
@@ -29,19 +29,14 @@ public class PlayerMove : MonoBehaviour
     }
     private void Update()
     {
-        //if (pv.IsMine)
-        //{
+        if (pv.IsMine)
+        {
+            Vector2 center = Camera.main.WorldToScreenPoint(transform.position);
+            Vector2 scope = Input.mousePosition;
+            Vector2 dir = new Vector2(scope.x - center.x, scope.y - center.y).normalized;
 
-        //}
-        //else
-        //{
-
-        //}
-        Vector2 center = Camera.main.WorldToScreenPoint(transform.position);
-        Vector2 scope = Input.mousePosition;
-        Vector2 dir = new Vector2(scope.x - center.x, scope.y - center.y).normalized;
-
-        GunRorationAngle = GetAngle(dir);
+            GunRorationAngle = GetAngle(dir);
+        }     
 
         Gun.transform.rotation = Quaternion.Euler(0, 0, GunRorationAngle);
     }
@@ -65,5 +60,17 @@ public class PlayerMove : MonoBehaviour
             Angle = -Angle;
         }
         return Angle;
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsReading)
+        {
+            GunRorationAngle = (float)stream.ReceiveNext();
+        }
+        else
+        {
+            stream.SendNext(GunRorationAngle);
+        }
     }
 }
