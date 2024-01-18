@@ -64,7 +64,7 @@ public class PlayerMove : MonoBehaviour, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-
+        throw new System.NotImplementedException();
         if (stream.IsWriting)
         {
             stream.SendNext(GunRorationAngle);
@@ -74,6 +74,6 @@ public class PlayerMove : MonoBehaviour, IPunObservable
             GunRorationAngle = (float)stream.ReceiveNext();
         }
 
-        throw new System.NotImplementedException();
+        
     }
 }
