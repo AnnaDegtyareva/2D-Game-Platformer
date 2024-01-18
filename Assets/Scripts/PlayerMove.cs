@@ -11,7 +11,7 @@ public class PlayerMove : MonoBehaviour, IPunObservable
     [SerializeField] float speed;
     [SerializeField] float jumpForce;
 
-    [HideInInspector] public float GunRorationAngle;
+    public float GunRorationAngle;
 
     public GameObject Gun;
     private void Awake()
@@ -64,13 +64,13 @@ public class PlayerMove : MonoBehaviour, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        if (stream.IsReading)
+        if (stream.IsWriting)
         {
-            GunRorationAngle = (float)stream.ReceiveNext();
+            stream.SendNext(GunRorationAngle);
         }
         else
         {
-            stream.SendNext(GunRorationAngle);
+            GunRorationAngle = (float)stream.ReceiveNext();
         }
     }
 }
