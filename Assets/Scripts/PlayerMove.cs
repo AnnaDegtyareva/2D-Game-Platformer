@@ -14,6 +14,7 @@ public class PlayerMove : MonoBehaviour, IPunObservable
     public float GunRorationAngle = 0f;
 
     public GameObject Gun;
+    bool isGround;
     private void Awake()
     {
         pv = GetComponent<PhotonView>();
@@ -26,6 +27,7 @@ public class PlayerMove : MonoBehaviour, IPunObservable
             float H = Input.GetAxis("Horizontal");
             rb.AddForce(new Vector2(H * speed, 0));
         }
+        
     }
     private void Update()
     {
@@ -36,12 +38,37 @@ public class PlayerMove : MonoBehaviour, IPunObservable
             Vector2 dir = new Vector2(scope.x - center.x, scope.y - center.y).normalized;
 
             GunRorationAngle = GetAngle(dir);
+
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
+            {
+                if (isGround)
+                {
+                    pv.RPC("Jump", RpcTarget.All);
+                }
+            }
         }
 
         Gun.transform.rotation = Quaternion.Euler(0, 0, GunRorationAngle);
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Ground")
+        {
+            isGround = true;
+        }
+        else
+        {
+            isGround = false;
+        }
+    }
 
+    [PunRPC]
+    public void Jump()
+    {
+        rb.AddForce(Vector2.up * jumpForce);
+        isGround = false;
+    }
 
 
 
