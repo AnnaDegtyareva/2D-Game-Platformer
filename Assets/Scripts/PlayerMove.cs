@@ -14,7 +14,7 @@ public class PlayerMove : MonoBehaviour, IPunObservable
     public float GunRorationAngle = 0f;
 
     public GameObject Gun;
-    bool isGround;
+    [HideInInspector] public bool isGround;
     private void Awake()
     {
         pv = GetComponent<PhotonView>();
@@ -50,34 +50,11 @@ public class PlayerMove : MonoBehaviour, IPunObservable
 
         Gun.transform.rotation = Quaternion.Euler(0, 0, GunRorationAngle);
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.tag == "Ground")
-        {
-            isGround = true;
-        }
-        else
-        {
-            isGround = false;
-        }
-    }
-
     [PunRPC]
     public void Jump()
     {
         rb.AddForce(Vector2.up * jumpForce);
-        isGround = false;
     }
-
-
-
-
-
-
-
-
-
     public float GetAngle(Vector2 V)
     {
         Vector2 correct = V.normalized;
