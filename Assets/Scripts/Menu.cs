@@ -11,15 +11,24 @@ public class Menu : MonoBehaviourPunCallbacks
     private IEnumerator _AutoConnect;
     [SerializeField] TMP_Text RoomName;
     [SerializeField] TMP_InputField TextRoom;
+    bool loadServer = false;
+    [SerializeField] GameObject load;
+    [SerializeField] GameObject first;
+    [SerializeField] GameObject second;
+    [SerializeField] GameObject forHost;
+    [SerializeField] GameObject forPlayers;
+    bool host = false;
 
     private void Start()
     {
-        PhotonNetwork.NickName = "Player" + Random.Range(1000, 9999);
+        load.SetActive(true);
+        //PhotonNetwork.NickName = "Player" + Random.Range(1000, 9999);
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.GameVersion = "1";
         PhotonNetwork.ConnectUsingSettings();
 
         Debug.Log("StartLobby");
+       
     }
     void RefreshPlayers()
     {
@@ -33,6 +42,7 @@ public class Menu : MonoBehaviourPunCallbacks
         string NewRoomName = Random.Range(100000, 999999).ToString();
         PhotonNetwork.CreateRoom(NewRoomName, new Photon.Realtime.RoomOptions { IsVisible = true, IsOpen = true, MaxPlayers = 16, CleanupCacheOnLeave = true }, Photon.Realtime.TypedLobby.Default);
         Debug.Log("Create");
+        host = true;
     }
     public void JoinRoom()
     {
@@ -69,6 +79,12 @@ public class Menu : MonoBehaviourPunCallbacks
         }
     }
 
+    public void ExitRoom()
+    {
+        photonView.RPC("OnPlayerLeftRoom", RpcTarget.All);
+        OnLeftRoom();
+    }
+
     [PunRPC]
     public void ShowPlayers(string players)
     {
@@ -83,6 +99,18 @@ public class Menu : MonoBehaviourPunCallbacks
         {
             StopCoroutine(_AutoConnect);
         }
+        first.SetActive(false);
+        second.SetActive(true);
+        if (host)
+        {
+            forHost.SetActive(true);
+            forPlayers.SetActive(false);
+        }
+        else
+        {
+            forHost.SetActive(false);
+            forPlayers.SetActive(true);
+        }
     }
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
@@ -95,9 +123,15 @@ public class Menu : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("LoadServer");
+        loadServer = true;
+        load.SetActive(false);
+        first.SetActive(true);
+        second.SetActive(false);
     }
     public override void OnLeftRoom()
     {
         Debug.Log("Leave");
+        first.SetActive(true);
+        second.SetActive(false);
     }
 }
