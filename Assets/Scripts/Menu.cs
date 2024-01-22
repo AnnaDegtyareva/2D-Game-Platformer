@@ -24,8 +24,6 @@ public class Menu : MonoBehaviourPunCallbacks
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.GameVersion = "1";
         PhotonNetwork.ConnectUsingSettings();
-
-        Debug.Log("StartLobby");
        
     }
     void RefreshPlayers()
@@ -62,7 +60,6 @@ public class Menu : MonoBehaviourPunCallbacks
         JoinRoom();
         yield return new WaitForSeconds(1);
         CreateRoom();
-        _AutoConnect = null;
     }
     public void LoadLvl()
     {
@@ -92,6 +89,7 @@ public class Menu : MonoBehaviourPunCallbacks
         {
             StopCoroutine(_AutoConnect);
         }
+        _AutoConnect = null;
         first.SetActive(false);
         second.SetActive(true);
         if (PhotonNetwork.IsMasterClient)
