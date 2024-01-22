@@ -58,8 +58,18 @@ public class Menu : MonoBehaviourPunCallbacks
     public IEnumerator AutoConnect()
     {
         JoinRoom();
-        yield return new WaitForSeconds(1);
-        CreateRoom();
+        while (true)
+        {
+            yield return new WaitForSeconds(.05f);
+            if (PhotonNetwork.NetworkClientState != ClientState.Joining)
+            {
+                if (PhotonNetwork.NetworkClientState != ClientState.Joined)
+                {
+                    CreateRoom();
+                }
+                yield break;
+            }
+        }        
     }
     public void LoadLvl()
     {
