@@ -11,18 +11,16 @@ public class Menu : MonoBehaviourPunCallbacks
     private IEnumerator _AutoConnect;
     [SerializeField] TMP_Text RoomName;
     [SerializeField] TMP_InputField TextRoom;
-    bool loadServer = false;
     [SerializeField] GameObject load;
     [SerializeField] GameObject first;
     [SerializeField] GameObject second;
     [SerializeField] GameObject forHost;
     [SerializeField] GameObject forPlayers;
-    bool host = false;
 
     private void Start()
     {
         load.SetActive(true);
-        //PhotonNetwork.NickName = "Player" + Random.Range(1000, 9999);
+        PhotonNetwork.NickName = "Player" + Random.Range(1000, 9999);
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.GameVersion = "1";
         PhotonNetwork.ConnectUsingSettings();
@@ -41,13 +39,10 @@ public class Menu : MonoBehaviourPunCallbacks
     {
         string NewRoomName = Random.Range(100000, 999999).ToString();
         PhotonNetwork.CreateRoom(NewRoomName, new Photon.Realtime.RoomOptions { IsVisible = true, IsOpen = true, MaxPlayers = 16, CleanupCacheOnLeave = true }, Photon.Realtime.TypedLobby.Default);
-        Debug.Log("Create");
-        host = true;
     }
     public void JoinRoom()
     {
         PhotonNetwork.JoinRandomRoom();
-        Debug.Log("Join");
     }
     public void JoinToRoomWithName()
     {
@@ -81,8 +76,7 @@ public class Menu : MonoBehaviourPunCallbacks
 
     public void ExitRoom()
     {
-        photonView.RPC("OnPlayerLeftRoom", RpcTarget.All);
-        OnLeftRoom();
+        PhotonNetwork.LeaveRoom();
     }
 
     [PunRPC]
@@ -92,7 +86,6 @@ public class Menu : MonoBehaviourPunCallbacks
     }
     public override void OnJoinedRoom()
     {
-        Debug.Log("JoinToRoom");
         RefreshPlayers();
         RoomName.text = "Room - " + PhotonNetwork.CurrentRoom.Name;
         if (_AutoConnect != null)
@@ -101,7 +94,7 @@ public class Menu : MonoBehaviourPunCallbacks
         }
         first.SetActive(false);
         second.SetActive(true);
-        if (host)
+        if (PhotonNetwork.IsMasterClient)
         {
             forHost.SetActive(true);
             forPlayers.SetActive(false);
@@ -112,25 +105,22 @@ public class Menu : MonoBehaviourPunCallbacks
             forPlayers.SetActive(true);
         }
     }
-    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+    public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         RefreshPlayers();
     }
-    public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
+    public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         RefreshPlayers();
     }
     public override void OnConnectedToMaster()
     {
-        Debug.Log("LoadServer");
-        loadServer = true;
         load.SetActive(false);
         first.SetActive(true);
         second.SetActive(false);
     }
     public override void OnLeftRoom()
     {
-        Debug.Log("Leave");
         first.SetActive(true);
         second.SetActive(false);
     }
