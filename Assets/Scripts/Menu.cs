@@ -30,7 +30,7 @@ public class Menu : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            photonView.RPC("ShowPlayers", RpcTarget.All, "players" + "\n" + string.Join("\n", PhotonNetwork.PlayerList.ToStringFull()));
+            photonView.RPC("ShowPlayers", RpcTarget.All, "players" + "\n" + string.Join("\n", FixPlayerNumbers(PhotonNetwork.PlayerList)));
         }
     }
     public void CreateRoom()
@@ -61,7 +61,6 @@ public class Menu : MonoBehaviourPunCallbacks
         while (true)
         {
             yield return new WaitForSeconds(.05f);
-            Debug.Log(PhotonNetwork.NetworkClientState);
             if (PhotonNetwork.NetworkClientState != ClientState.Joining)
             {
                 if (PhotonNetwork.NetworkClientState != ClientState.ConnectingToGameServer)
@@ -139,5 +138,16 @@ public class Menu : MonoBehaviourPunCallbacks
     {
         first.SetActive(true);
         second.SetActive(false);
+    }
+    public string[] FixPlayerNumbers(Player[] Players)
+    {
+        string[] result = new string[Players.Length];
+
+        for (int i = 0; i < Players.Length; i++)
+        {
+            result[i] = (i+1).ToString() + " -" + Players[i].ToString().Substring(3);
+        }
+
+        return result;
     }
 }
