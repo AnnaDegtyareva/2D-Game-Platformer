@@ -61,13 +61,21 @@ public class Menu : MonoBehaviourPunCallbacks
         while (true)
         {
             yield return new WaitForSeconds(.05f);
+            Debug.Log(PhotonNetwork.NetworkClientState);
             if (PhotonNetwork.NetworkClientState != ClientState.Joining)
             {
-                if (PhotonNetwork.NetworkClientState != ClientState.Joined)
+                if (PhotonNetwork.NetworkClientState != ClientState.ConnectingToGameServer)
                 {
-                    CreateRoom();
+                    if(PhotonNetwork.NetworkClientState != ClientState.Authenticating)
+                    {
+                        if (PhotonNetwork.NetworkClientState != ClientState.Joined)
+                        {
+                            yield return new WaitForSeconds(.15f);
+                            CreateRoom();
+                        }
+                        yield break;
+                    }
                 }
-                yield break;
             }
         }        
     }
