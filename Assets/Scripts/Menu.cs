@@ -4,7 +4,6 @@ using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
 using TMPro;
-
 public class Menu : MonoBehaviourPunCallbacks
 {
     [SerializeField] TMP_Text PlayersText;
@@ -16,15 +15,13 @@ public class Menu : MonoBehaviourPunCallbacks
     [SerializeField] GameObject second;
     [SerializeField] GameObject forHost;
     [SerializeField] GameObject forPlayers;
-
     private void Start()
     {
         load.SetActive(true);
         PhotonNetwork.NickName = "Player" + Random.Range(1000, 9999);
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.GameVersion = "1";
-        PhotonNetwork.ConnectUsingSettings();
-       
+        PhotonNetwork.ConnectUsingSettings();       
     }
     void RefreshPlayers()
     {
@@ -87,12 +84,27 @@ public class Menu : MonoBehaviourPunCallbacks
             //PhotonNetwork.CurrentRoom.IsVisible = false;
         }
     }
-
     public void ExitRoom()
     {
+        if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount > 1)
+        {
+            ChangeMasterClient();
+        }
         PhotonNetwork.LeaveRoom();
     }
-
+    public void ChangeMasterClient()
+    {
+        Player NewHost;
+        if (PhotonNetwork.CurrentRoom.Players[0] != PhotonNetwork.MasterClient)
+        {
+            NewHost = PhotonNetwork.CurrentRoom.Players[0];
+        }
+        else
+        {
+            NewHost = PhotonNetwork.CurrentRoom.Players[1];
+        }
+        PhotonNetwork.SetMasterClient(NewHost);
+    }
     [PunRPC]
     public void ShowPlayers(string players)
     {
@@ -120,6 +132,26 @@ public class Menu : MonoBehaviourPunCallbacks
             forPlayers.SetActive(true);
         }
     }
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            forHost.SetActive(true);
+            forPlayers.SetActive(false);
+        }
+        else
+        {
+            forHost.SetActive(false);
+            forPlayers.SetActive(true);
+        }
+    }
+    public void OnApplicationQuit()
+    {
+        if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount > 1)
+        {
+            ChangeMasterClient();
+        }
+    }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         RefreshPlayers();
@@ -142,12 +174,10 @@ public class Menu : MonoBehaviourPunCallbacks
     public string[] FixPlayerNumbers(Player[] Players)
     {
         string[] result = new string[Players.Length];
-
         for (int i = 0; i < Players.Length; i++)
         {
             result[i] = (i+1).ToString() + " -" + Players[i].ToString().Substring(3);
         }
-
         return result;
     }
 }
