@@ -87,10 +87,9 @@ public class Menu : MonoBehaviourPunCallbacks
     }
     public void ExitRoom()
     {
-        ChangeMasterClient();
         if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount > 1)
         {
-            
+            ChangeMasterClient();
         }
         PhotonNetwork.LeaveRoom();
     }
