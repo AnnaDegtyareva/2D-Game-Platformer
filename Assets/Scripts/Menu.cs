@@ -95,13 +95,13 @@ public class Menu : MonoBehaviourPunCallbacks
     public void ChangeMasterClient()
     {
         Player NewHost;
-        if (PhotonNetwork.CurrentRoom.Players[0] != PhotonNetwork.MasterClient)
+        if (PhotonNetwork.CurrentRoom.Players[1] != PhotonNetwork.MasterClient)
         {
-            NewHost = PhotonNetwork.CurrentRoom.Players[0];
+            NewHost = PhotonNetwork.CurrentRoom.Players[1];
         }
         else
         {
-            NewHost = PhotonNetwork.CurrentRoom.Players[1];
+            NewHost = PhotonNetwork.CurrentRoom.Players[2];
         }
         PhotonNetwork.SetMasterClient(NewHost);
     }
