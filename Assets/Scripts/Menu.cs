@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
 using TMPro;
+using System.Linq;
 public class Menu : MonoBehaviourPunCallbacks
 {
     [SerializeField] TMP_Text PlayersText;
@@ -86,22 +87,24 @@ public class Menu : MonoBehaviourPunCallbacks
     }
     public void ExitRoom()
     {
+        ChangeMasterClient();
         if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount > 1)
         {
-            ChangeMasterClient();
+            
         }
         PhotonNetwork.LeaveRoom();
     }
     public void ChangeMasterClient()
     {
-        Player NewHost;
-        if (PhotonNetwork.CurrentRoom.Players[1] != PhotonNetwork.MasterClient)
+        Player NewHost = PhotonNetwork.MasterClient;
+        //Debug.Log(PhotonNetwork.CurrentRoom.Players.ToStringFull());
+        for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
         {
-            NewHost = PhotonNetwork.CurrentRoom.Players[1];
-        }
-        else
-        {
-            NewHost = PhotonNetwork.CurrentRoom.Players[2];
+            int key = PhotonNetwork.CurrentRoom.Players.ElementAt(i).Key;
+            if (PhotonNetwork.CurrentRoom.Players[key] != PhotonNetwork.MasterClient)
+            {
+                NewHost = PhotonNetwork.CurrentRoom.Players[key];
+            }
         }
         PhotonNetwork.SetMasterClient(NewHost);
     }
