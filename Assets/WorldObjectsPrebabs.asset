@@ -17,39 +17,54 @@ MonoBehaviour:
     - size3x2:
       - Prefab: {fileID: 7053041136215788743, guid: cf65d5e38d650554eab5d98236dbf30e, type: 3}
         weight: 3
+        FileWay: Prefabs/Type0/3x2/
       - Prefab: {fileID: 3468303058704268367, guid: 5b67cad201039224c875b63fc70b3cc8, type: 3}
         weight: 3
+        FileWay: Prefabs/Type0/3x2/
       size5x2:
       - Prefab: {fileID: 6437538267184988617, guid: 465bea4ecc4b20a409c8ce302395db2d, type: 3}
         weight: 4
+        FileWay: Prefabs/Type0/5x2/
       - Prefab: {fileID: 2152822472908569134, guid: 7ad1f2edb699d81488d897da09ff4120, type: 3}
         weight: 1
+        FileWay: Prefabs/Type0/5x2/
       - Prefab: {fileID: 2572177746493157910, guid: 8bc0ebf3115b6614a8ea54cedb3036f1, type: 3}
         weight: 2
+        FileWay: Prefabs/Type0/5x2/
       - Prefab: {fileID: 6443617954473418115, guid: 1d8eafc08142f6446a868f91348007b2, type: 3}
         weight: 1
+        FileWay: Prefabs/Type0/5x2/
       size5x5:
       - Prefab: {fileID: 301165336685385052, guid: 38d68910d21594a488e332a3249e9dd9, type: 3}
         weight: 4
+        FileWay: Prefabs/Type0/5x5/
       - Prefab: {fileID: 145206762255909567, guid: 93f6f7db3c096894ea63821b3d75ac42, type: 3}
         weight: 1
+        FileWay: Prefabs/Type0/5x5/
       - Prefab: {fileID: 3807217820997985999, guid: e19a70ffd4b9f7c4f8de12a402a59c84, type: 3}
         weight: 1
+        FileWay: Prefabs/Type0/5x5/
       - Prefab: {fileID: 4124968656708174767, guid: 3af9b08cdb97ad747ba551a597125202, type: 3}
         weight: 1
+        FileWay: Prefabs/Type0/5x5/
       - Prefab: {fileID: 1361235980225380488, guid: 74d5c12a905aed94c8e75d8f3fc13ecd, type: 3}
         weight: 2
+        FileWay: Prefabs/Type0/5x5/
       - Prefab: {fileID: 8831478172673999395, guid: 270650c25dc6f974aa6948cbe8d7af84, type: 3}
         weight: 1
+        FileWay: Prefabs/Type0/5x5/
       size7x2: []
       size7x5:
       - Prefab: {fileID: 3154676813212724121, guid: 70172c9c6c095cc41a633edb1cfa3c05, type: 3}
         weight: 2
+        FileWay: Prefabs/Type0/7x5/
       - Prefab: {fileID: 3917640442985900595, guid: c76c52c6b99e2134fa8f707ad0c2feb0, type: 3}
         weight: 2
+        FileWay: Prefabs/Type0/7x5/
       size9x3:
       - Prefab: {fileID: 8071621582990337367, guid: 76d5bb439ecd8e841a3dcc92ddba0810, type: 3}
         weight: 4
+        FileWay: Prefabs/Type0/9x3/
     - size3x2: []
       size5x2: []
       size5x5: []

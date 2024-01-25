@@ -16,6 +16,7 @@ public class WorldObjectsPrebabs : ScriptableObject
             {
                 public GameObject Prefab;
                 public int weight = 1;
+                public string FileWay;
             }
             public item[] size3x2;
             public item[] size5x2;

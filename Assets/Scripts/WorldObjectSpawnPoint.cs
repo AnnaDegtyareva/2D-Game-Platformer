@@ -41,15 +41,17 @@ public class WorldObjectSpawnPoint : MonoBehaviour
         }
         int Weight = Random.Range(0, AllWeight[AllWeight.Length - 1]);
         GameObject Platform = Platforms[Platforms.Count - 1].Prefab;
+        string FileWay = Platforms[Platforms.Count - 1].FileWay;
         for (int i = 0; i < AllWeight.Length - 1; i++)
         {
             if (Weight < AllWeight[i])
             {
                 Platform = Platforms[i].Prefab;
+                FileWay = Platforms[i].FileWay;
                 break;
             }
         }
-        PhotonNetwork.Instantiate(Platform.name, transform.position, Quaternion.identity);
+        PhotonNetwork.Instantiate(FileWay + Platform.name, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 }
