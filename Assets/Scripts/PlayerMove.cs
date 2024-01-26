@@ -11,6 +11,8 @@ public class PlayerMove : MonoBehaviour, IPunObservable
     [SerializeField] float speed;
     [SerializeField] float jumpForce;
 
+    [SerializeField] GameObject camera;
+
     public float GunRorationAngle = 0f;
 
     public GameObject Gun;
@@ -19,6 +21,10 @@ public class PlayerMove : MonoBehaviour, IPunObservable
     {
         pv = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody2D>();
+        if (!pv.IsMine)
+        {
+            camera.SetActive(false);
+        }
     }
     private void FixedUpdate()
     {
