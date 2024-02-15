@@ -16,7 +16,7 @@ MonoBehaviour:
     Types:
     - size3x2:
       - Prefab: {fileID: 7053041136215788743, guid: cf65d5e38d650554eab5d98236dbf30e, type: 3}
-        weight: 3
+        weight: 2
         FileWay: Prefabs/Type0/3x2/
       - Prefab: {fileID: 3468303058704268367, guid: 5b67cad201039224c875b63fc70b3cc8, type: 3}
         weight: 3
@@ -63,6 +63,9 @@ MonoBehaviour:
         FileWay: Prefabs/Type0/7x5/
       size9x3:
       - Prefab: {fileID: 8071621582990337367, guid: 76d5bb439ecd8e841a3dcc92ddba0810, type: 3}
+        weight: 1
+        FileWay: Prefabs/Type0/9x3/
+      - Prefab: {fileID: 8071621582990337367, guid: 7c581b8097b3fcf43a2494ee269daf80, type: 3}
         weight: 4
         FileWay: Prefabs/Type0/9x3/
     - size3x2: []

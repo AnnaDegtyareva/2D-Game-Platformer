@@ -17,10 +17,14 @@ public class PlayerMove : MonoBehaviour, IPunObservable
 
     public GameObject Gun;
     [HideInInspector] public bool isGround;
+
+    Animator animator;
+    bool isRun = false;
     private void Awake()
     {
         pv = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         if (!pv.IsMine)
         {
             camera.SetActive(false);
@@ -32,6 +36,26 @@ public class PlayerMove : MonoBehaviour, IPunObservable
         {
             float H = Input.GetAxis("Horizontal");
             rb.AddForce(new Vector2(H * speed, 0));
+            if (H != 0)
+            {
+                if (H < 0)
+                {
+                    gameObject.transform.localScale = new Vector3(-1.6f, 1.6f, 1.6f);
+                }
+                else
+                {
+
+                    gameObject.transform.localScale = new Vector3(1.6f, 1.6f, 1.6f);
+                }
+                isRun = true;
+                animator.SetBool("IsRun", isRun);
+            }
+            else
+            {
+                isRun = false;
+                animator.SetBool("IsRun", isRun);
+            }
+            
         }
         
     }
